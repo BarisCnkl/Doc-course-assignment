@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullstack-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fullstack
+  template:
+    metadata:
+      labels:
+        app: fullstack
+    spec:
+      containers:
+        - name: react-frontend
+          image: my-react-app:latest
+          ports:
+            - containerPort: 3000
+
+        - name: springboot-backend
+          image: springboot-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://localhost:5432/mydb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: cba54321
+
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: mydb
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: cba54321
