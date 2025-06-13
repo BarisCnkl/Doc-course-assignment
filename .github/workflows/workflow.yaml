@@ -22,3 +22,5 @@ jobs:
 
       - name: Build with Maven
         run: ./mvnw clean package
+        working-directory: My-Springboot-17
+        
